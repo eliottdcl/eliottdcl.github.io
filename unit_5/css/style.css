@@ -1,0 +1,133 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+.example {
+	background: #FFC675;
+}
+
+.hero {
+	height: 400px;
+	/*background: url("img/hero.png");*/
+	background-size:cover;
+	background: ##FFED74;
+	height:100vh;
+}
+
+
+
+.hero2 {
+	height: 250px;
+	/*background: url("img/hoarding.png");*/
+	background-size:cover;
+	background: ##FFED74;
+	background: cover;
+}
+
+.company-blurb {
+	text-align:center;
+	margin: 0 auto;
+	background: #E89C6C;
+
+}
+
+h1 {
+	font-family: 'Maven Pro';
+	color: #363738;
+	margin-left: 100px;
+	font-size: 3.5em;
+	font-weight: 800;
+	width: 75%;
+}
+
+h2 {
+	font-family: 'Zilla Slab';
+	color: #363738;
+	margin-left: 100px;
+	font-size: 35px;
+	font-weight: 400;
+	width: 60%
+}
+
+h3 {
+	font-family: 'Maven Pro';
+	vertical-align: middle;
+	font-weight: 700;
+	font-size: 30px;
+	padding: 10px 25px;
+	margin: 0px;
+	color: #363738;
+	background: #E8C66A;
+
+}
+
+h4 {
+	font-family: 'Maven Pro';
+	vertical-align: middle;
+	font-weight: 700;
+	font-size: 25px;
+	text-align: center;
+	padding: 1em;
+	margin: 0px;
+	color: #363738;
+}
+
+h5 {
+	font-family: 'Maven Pro';
+	color: #363738;
+	font-size: 20px;
+}
+
+
+
+p {
+	font-family: 'Zilla Slab';
+	font-size: 18px;
+	color: #363738;
+}
+
+a {
+	font-family: 'Maven Pro';
+	text-decoration: none;
+	color: white; /* blue colors for links too */
+  	text-decoration: none; /* no underline */
+}
+
+
+
+.footer {
+    background: #FF957E;
+    color: white;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-size: 18px;
+    font-family: 'Maven Pro';
+}
+
+#wrapper {
+
+}
+
+
+.grid-table {
+	width: 100%;
+}
+
+
+.row-service div {
+	width: 33%;
+	display: inline-block;
+	text-align: center;
+	vertical-align: top;
+	background: red;
+}
+
+.row-example div {
+	width: 33%;
+	display: inline-block;
+	text-align: center;
+}
+
