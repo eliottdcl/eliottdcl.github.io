@@ -12,7 +12,7 @@
 	height: 400px;
 	/*background: url("img/hero.png");*/
 	background-size:cover;
-	background: ##FFED74;
+	background: #FFED74;
 	height:100vh;
 }
 
@@ -22,7 +22,7 @@
 	height: 250px;
 	/*background: url("img/hoarding.png");*/
 	background-size:cover;
-	background: ##FFED74;
+	background: #FFED74;
 	background: cover;
 }
 
