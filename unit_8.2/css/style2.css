@@ -1,0 +1,37 @@
+
+
+/*Example table - First one*/
+
+
+
+
+.example-table {
+    float: left;
+    padding: 0.5%;
+    text-align: center;
+    width:32%; 
+}
+
+
+
+
+.clearfix:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+
+.example-table2 img {
+  width:100%; 
+  
+}
+
+.example-table2 {
+    float: left;
+    padding: 0.5%;
+    text-align: center;
+    width:32%; 
+}
