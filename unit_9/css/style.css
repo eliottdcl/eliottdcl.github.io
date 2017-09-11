@@ -64,7 +64,7 @@ a {
 /*-------------------*/
 
 .hero1 {
-	background: url(hero.png);
+	background: url(../img/hero.png);
     background-size: cover;
     height: 100vh;
     clear: both;
@@ -75,7 +75,7 @@ a {
 
 .hero2 {
     height: 400px;
-    background: url(hoarding.png);
+    background: url(../img/hoarding.png);
     background-size: cover;
     background: cover;
 	clear: both;
