@@ -4,8 +4,6 @@ import Header from './Header'
 import Message from './Message'
 import Post from './Post'
 import SortAZ from './SortAZ'
-// import SortZA from './SortZA'
-// import SortON from './SortON'
 import SortNO from './SortNO'
 import Search from './Search'
 import uuid from 'uuid';
@@ -27,7 +25,6 @@ class App extends Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.handlePost = this.handlePost.bind(this);
     this.handleSortingAZ = this.handleSortingAZ.bind(this);
-    // this.handleSortingON = this.handleSortingON.bind(this);
     this.handleSortingNO = this.handleSortingNO.bind(this);
     this.handleSearchClick = this.handleSearchClick.bind(this);
   }
@@ -73,16 +70,6 @@ handlePost(value){
   messages: newMessages
       })
 }
-
-// handleSortingAZ(){
-//   const sortedMessagesAZ = this.state.messages.sort((a,b) =>
-//   a.likes - b.likes
-//       )
-// console.log(this.state.order);
-//     this.setState({
-//       messages: sortedMessagesAZ
-//     })
-// }
 
 handleSortingAZ(){
   if (this.state.order === "default") {
@@ -144,24 +131,6 @@ handleSortingNO(){
 }
 
 
-// handleSortingNO(){
-//   const sortedMessagesNO = this.state.messages.sort((a,b) =>
-//   b.dateunix - a.dateunix
-// )
-//     this.setState({
-//       messages: sortedMessagesNO
-//     })
-// }
-
-// handleSortingON(){
-//   const sortedMessagesON = this.state.messages.sort((a,b) =>
-//   a.dateunix - b.dateunix
-// )
-//     this.setState({
-//       messages: sortedMessagesON
-//     })
-// }
-
 handleSearchClick(value){
   const filteredMessages = this.state.messages.filter((message) =>
      message.text.indexOf(value) !== -1
@@ -190,19 +159,13 @@ handleSearchClick(value){
                  <Search
                    onSearch={this.handleSearchClick}
                  />
-                 <div class="panel-heading">Message Board</div>
+                 <div class="panel-heading">Message Board (sorted by: {this.state.order})</div>
                  <div class="sort-likes">
                    <SortAZ
                      onSort={this.handleSortingAZ}
                    />
-                   {/* <SortZA
-                     onSort={this.handleSortingZA}
-                   /> */}
                    </div>
                    <div class="sort-date">
-                   {/* <SortON
-                     onSort={this.handleSortingON}
-                   /> */}
                    <SortNO
                      onSort={this.handleSortingNO}
                    />
