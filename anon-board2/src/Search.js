@@ -19,9 +19,7 @@ class Search extends Component{
     }
 
   render(){
-    let filteredMessages = this.props.messages;
     return(
-
           <div class="search-section">
             {/* <label class="search-label">Search:</label> */}
             <input

@@ -80,7 +80,9 @@ handleSortingAZ(){
       this.setState({
         messages: sortedMessagesAZ
       })
-    this.state.order = "a to z"
+    this.setState({
+      order: "a to z"
+    })
     console.log(this.state.order);
   } else if (this.state.order === "a to z") {
     const sortedMessagesZA = this.state.messages.sort((a,b) =>
@@ -89,7 +91,9 @@ handleSortingAZ(){
       this.setState({
         messages: sortedMessagesZA
       })
-    this.state.order = "z to a"
+      this.setState({
+        order: "z to a"
+      })
   } else {
     const sortedMessagesAZ = this.state.messages.sort((a,b) =>
     a.likes - b.likes
@@ -98,7 +102,9 @@ handleSortingAZ(){
       this.setState({
         messages: sortedMessagesAZ
       })
-    this.state.order = "a to z"
+      this.setState({
+        order: "a to z"
+      })
   }
 }
 
@@ -110,7 +116,9 @@ handleSortingNO(){
       this.setState({
         messages: sortedMessagesNO
       })
-      this.state.order = "new to old"
+      this.setState({
+        order: "new to old"
+      })
   } else if (this.state.order === "new to old") {
     const sortedMessagesON = this.state.messages.sort((a,b) =>
     a.dateunix - b.dateunix
@@ -118,7 +126,9 @@ handleSortingNO(){
       this.setState({
         messages: sortedMessagesON
       })
-      this.state.order = "old to new"
+      this.setState({
+        order: "old to new"
+      })
   } else {
     const sortedMessagesNO = this.state.messages.sort((a,b) =>
     b.dateunix - a.dateunix
@@ -126,7 +136,9 @@ handleSortingNO(){
       this.setState({
         messages: sortedMessagesNO
       })
-      this.state.order = "new to old"
+      this.setState({
+        order: "new to old"
+      })
   }
 }
 
@@ -135,6 +147,7 @@ handleSearchClick(value){
   const filteredMessages = this.state.messages.filter((message) =>
      message.text.indexOf(value) !== -1
   );
+  console.log(value);
   this.setState({
     messages: filteredMessages
   })
@@ -158,6 +171,7 @@ handleSearchClick(value){
                <div class="panel panel-default">
                  <Search
                    onSearch={this.handleSearchClick}
+                   value={this.value}
                  />
                  <div class="panel-heading">Message Board (sorted by: {this.state.order})</div>
                  <div class="sort-likes">
