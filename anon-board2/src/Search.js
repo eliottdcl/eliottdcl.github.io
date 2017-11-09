@@ -30,8 +30,7 @@ class Search extends Component{
               value={this.state.value}
               onChange={this.handleChange}
             />
-            <button class="search-button" id="submit"
-              class="btn btn-default"
+            <button class="button" id="submit"
               onClick={this.handleSearch}>Search
             </button>
           </div>

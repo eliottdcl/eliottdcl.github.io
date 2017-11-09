@@ -23,10 +23,22 @@ class Post extends Component {
 <div class="panel-body">
   <div class="form-group">
     <label>Message:</label>
-    <textarea id="message" type="text" class="form-control" onChange={this.handleChange} value={this.state.value}></textarea>
+    <textarea
+      id="message"
+      type="text"
+      class="form-control"
+      onChange={this.handleChange}
+      value={this.state.value}>
+    </textarea>
   </div>
-  <button id="submit" class="btn btn-default" onClick={this.handlePost}>Post to board</button>
-</div>
+    <button
+      id="submit"
+      class="button"
+      /*class="btn btn-default"*/
+      onClick={this.handlePost}>
+      Post to board
+    </button>
+  </div>
     )
   }
 }

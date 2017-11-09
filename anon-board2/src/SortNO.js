@@ -16,7 +16,7 @@ class SortNO extends Component{
     return(
       <span
         onClick={this.handleSort}>
-        <img alt="sortZA" class="up-arrow" src="https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-up-01-128.png" />
+        <button type="button">Order by date</button>
       </span>
     )
   }

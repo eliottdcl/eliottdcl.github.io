@@ -16,8 +16,8 @@ class SortAZ extends Component{
     return(
           <span
             onClick={this.handleSort}>
-            {/* <button type="button">A - Z</button> */}
-            <img alt="sortAZ" class="down-arrow" src="https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-down-01-256.png" />
+            <button type="button">Order by likes</button>
+            {/* <img alt="sortAZ" class="down-arrow" src="https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-down-01-256.png" /> */}
           </span>
           )
   }
