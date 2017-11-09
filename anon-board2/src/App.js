@@ -7,6 +7,7 @@ import SortAZ from './SortAZ'
 import SortZA from './SortZA'
 import SortON from './SortON'
 import SortNO from './SortNO'
+import Search from './Search'
 import uuid from 'uuid';
 
 class App extends Component {
@@ -14,10 +15,10 @@ class App extends Component {
     super(props)
     this.state = {
       messages: [
-        { id: uuid.v4(), text: "Hi how are you?", likes: 3,  date:1510129706551},
-        { id: uuid.v4(), text: "Good thanks, what are you doing today", likes: 2,  date:1510129706552},
-        { id: uuid.v4(), text: "Going surfing", likes: 1,  date:1510129706553},
-        { id: uuid.v4(), text: "Nice, I'll come along", likes: 0,  date:1510129706554},
+        { id: uuid.v4(), text: "Hi how are you?", likes: 3,  date:"Wed Nov 08 2017 08:00:00 GMT+1100 (AEDT)", dateunix: 1510197583152},
+        { id: uuid.v4(), text: "Good thanks, what are you doing today", likes: 2,  date:"Wed Nov 08 2017 08:10:00 GMT+1100 (AEDT)", dateunix: 1510197583153},
+        { id: uuid.v4(), text: "Going surfing", likes: 1,  date:"Wed Nov 08 2017 08:20:00 GMT+1100 (AEDT)", dateunix: 1510197583154},
+        { id: uuid.v4(), text: "Nice, I'll come along", likes: 0,  date:"Wed Nov 08 2017 08:30:00 GMT+1100 (AEDT)", dateunix: 1510197583155},
     ]}
     this.handleLike = this.handleLike.bind(this);
     this.handleDislike = this.handleDislike.bind(this);
@@ -27,6 +28,7 @@ class App extends Component {
     this.handleSortingZA = this.handleSortingZA.bind(this);
     this.handleSortingON = this.handleSortingON.bind(this);
     this.handleSortingNO = this.handleSortingNO.bind(this);
+    this.handleSearchClick = this.handleSearchClick.bind(this);
   }
 
 handleLike(id){
@@ -63,8 +65,9 @@ handleDelete(id){
 
 
 handlePost(value){
-    const newMessage = { id: uuid.v4(), text: value, likes: 0, date: Date.now() }
+    const newMessage = { id: uuid.v4(), text: value, likes: 0, date: Date(),dateunix: Date.now()}
     const newMessages = this.state.messages.concat([newMessage])
+    console.log();
     this.setState({
   messages: newMessages
       })
@@ -90,7 +93,7 @@ handleSortingZA(){
 
 handleSortingNO(){
   const sortedMessagesNO = this.state.messages.sort((a,b) =>
-  b.date - a.date
+  b.dateunix - a.dateunix
 )
     this.setState({
       messages: sortedMessagesNO
@@ -99,11 +102,20 @@ handleSortingNO(){
 
 handleSortingON(){
   const sortedMessagesON = this.state.messages.sort((a,b) =>
-  a.date - b.date
+  a.dateunix - b.dateunix
 )
     this.setState({
       messages: sortedMessagesON
     })
+}
+
+handleSearchClick(value){
+  const filteredMessages = this.state.messages.filter((message) =>
+     message.text.indexOf(value) !== -1
+  );
+  this.setState({
+    messages: filteredMessages
+  })
 }
 
 
@@ -122,6 +134,9 @@ handleSortingON(){
              </div>
              <div class="panel-group">
                <div class="panel panel-default">
+                 <Search
+                   onSearch={this.handleSearchClick}
+                 />
                  <div class="panel-heading">Message Board</div>
                  <div class="sort-likes">Likes
                    <SortAZ
@@ -146,6 +161,7 @@ handleSortingON(){
                              <Message
                                text={message.text}
                                likes={message.likes}
+                               date={message.date}
                                id={message.id}
                                onLike={this.handleLike}
                                onDislike={this.handleDislike}

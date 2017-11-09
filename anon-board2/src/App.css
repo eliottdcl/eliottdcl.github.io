@@ -51,6 +51,15 @@
   width: 40px;
 }
 
+.date-format {
+  font-size: 10px;
+  text-align: right;
+}
+
+.search-button {
+  
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

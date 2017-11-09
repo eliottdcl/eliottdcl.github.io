@@ -16,7 +16,7 @@ class SortON extends Component{
     return(
       <span
         onClick={this.handleSort}>
-        <img class="down-arrow" src="https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-down-01-256.png" />
+        <img alt="sortAZ" class="down-arrow" src="https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-down-01-256.png" />
       </span>
     )
   }

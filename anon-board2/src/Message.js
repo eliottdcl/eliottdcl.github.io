@@ -21,14 +21,17 @@ class Message extends Component{
         this.props.onDelete(this.props.id)
       }
 
+
+
   render(){
     return(
       <li>
-        {this.props.text} 👋 
+        {this.props.text} 👋
         <i class="fa fa-trash pull-right delete" onClick={this.handleTrash}></i>
         <i class="fa fa-thumbs-down pull-right" onClick={this.handleThumbsDown}></i>
         <i class="fa fa-thumbs-up pull-right" onClick={this.handleThumbsUp}></i>
         <div class="pull-right">{this.props.likes}</div>
+        <span class="date-format">{this.props.date}</span>
       </li>
     )
   }

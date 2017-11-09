@@ -16,7 +16,7 @@ class SortZA extends Component{
       <span
         onClick={this.handleSort}>
         {/* <button type="button">High to low</button> */}
-        <img class="up-arrow" src="https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-up-01-128.png" />
+        <img alt="sortZA" class="up-arrow" src="https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-up-01-128.png" />
       </span>
     )
   }
