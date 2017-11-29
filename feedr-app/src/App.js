@@ -22,6 +22,7 @@ class App extends Component {
         popupImg: '',
         sourcename: '',
         searchclass: '',
+        order: 'default'
       }
       this.openArticle = this.openArticle.bind(this);
       this.closeArticle = this.closeArticle.bind(this);
@@ -33,7 +34,37 @@ class App extends Component {
       this.useNYTArticles = this.useNYTArticles.bind(this);
       this.fetchMashArticles = this.fetchMashArticles.bind(this);
       this.useMashArticles = this.useMashArticles.bind(this);
+      this.handleSortingAZ = this.handleSortingAZ.bind(this);
       // this.mountingFunction = this.mountingFunction.bind(this);
+  }
+
+  handleSortingAZ(){
+    if (this.state.order === "default") {
+      const sortedArticlesAZ = this.state.articles.sort((a,b) =>
+      a.number - b.number
+          )
+    console.log(this.state.order);
+        this.setState({
+          articles: sortedArticlesAZ,
+          order: "a to z ⬆"
+        })
+    } else if (this.state.order === "a to z ⬆") {
+      const sortedArticlesAZ = this.state.articles.sort((a,b) =>
+      b.number - a.number
+          )
+        this.setState({
+          messages: sortedArticlesAZ,
+          order: "z to a ⬇"
+        })
+    } else {
+      const sortedArticlesAZ = this.state.articles.sort((a,b) =>
+      a.number - b.number
+          )
+        this.setState({
+          messages: sortedArticlesAZ,
+          order: "a to z ⬆"
+        })
+    }
   }
 
 openArticle(title, description, url, img){
@@ -54,11 +85,15 @@ closeArticle(){
 }
 
 updateAllSources(){
-  const newArticles = this.state.articles.concat(this.state.diggarticles, this.state.masharticles, this.state.nytarticles)
-  this.setState({
-    articles: newArticles,
-    sourcename: "All"
-  })
+  if (this.state.sourcename === "All") {
+    console.log("You have already loaded article from all sources");
+  } else {
+    const newArticles = this.state.diggarticles.concat(this.state.masharticles, this.state.nytarticles)
+    this.setState({
+      articles: newArticles,
+      sourcename: "All"
+    })
+  }
 }
 
 showHideSearch(){
@@ -127,7 +162,8 @@ fetchDiggArticles(){
 
 useDiggArticles(){
   this.setState({
-    articles: this.state.diggarticles
+    articles: this.state.diggarticles,
+    sourcename: "Digg"
   })
 }
 
@@ -156,7 +192,8 @@ fetchNYTArticles(){
 
 useNYTArticles(){
   this.setState({
-    articles: this.state.nytarticles
+    articles: this.state.nytarticles,
+    sourcename: "New York Times"
   })
 }
 
@@ -185,7 +222,8 @@ fetchMashArticles(){
 
 useMashArticles(){
   this.setState({
-    articles: this.state.masharticles
+    articles: this.state.masharticles,
+    sourcename: "Mashables"
   })
 }
 
@@ -213,6 +251,13 @@ useMashArticles(){
           sourcename={this.state.sourcename}
           class={this.state.searchclass}
         />
+        <button
+          onClick={this.handleSortingAZ}
+          type="submit"
+          value="Submit"
+          className="sortAZ">
+          Sorted by {this.state.order}
+        </button>
         <Loader showLoader={this.state.showLoader}/>
         <div className="popUp" style={{display: this.state.showPopup}}>
         <a href="#" className="closePopUp" onClick={this.closeArticle}>X</a>

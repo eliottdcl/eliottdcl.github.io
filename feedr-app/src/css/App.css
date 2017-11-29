@@ -71,6 +71,13 @@ header h1 {
   padding-left: 0;
 }
 
+.sortAZ {
+    position: relative;
+    top: 64px;
+    left: 76%;
+}
+
+
 /* Header navigation bar */
 header nav {
   padding: 10px 2%;
