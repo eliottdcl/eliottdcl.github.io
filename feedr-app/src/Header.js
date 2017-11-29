@@ -9,28 +9,33 @@ class Header extends Component {
         this.handleClickNYT = this.handleClickNYT.bind(this);
         this.handleClickMashable = this.handleClickMashable.bind(this);
         this.handleSearchClick = this.handleSearchClick.bind(this);
+        this.handleAllSourcesClick = this.handleAllSourcesClick.bind(this);
   }
       handleClickDigg(){
-        this.props.onGetDiggArticles()
+        this.props.onUseDiggArticles()
       }
 
       handleClickNYT(){
-        this.props.onGetNYTArticles()
+        this.props.onUseNYTArticles()
       }
 
       handleClickMashable(){
-        this.props.onGetMashableArticles()
+        this.props.onUseMashableArticles()
       }
 
       handleSearchClick(){
         this.props.onSearchClick()
       }
 
+      handleAllSourcesClick(){
+        this.props.onHomeClick()
+      }
+
     render(){
       return(
             <header>
               <section className="container">
-                <a href="#"><h1>Feedr</h1></a>
+                <a href="#" onClick={this.handleAllSourcesClick}><h1>Feedr</h1></a>
                 <nav>
                   <ul>
                     <li><a href="#">News Source: <span>{this.props.sourcename}</span></a>

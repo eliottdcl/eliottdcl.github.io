@@ -22,16 +22,18 @@ class App extends Component {
         popupImg: '',
         sourcename: '',
         searchclass: '',
-        mashablearticles: [],
-        nytarticles: []
       }
       this.openArticle = this.openArticle.bind(this);
       this.closeArticle = this.closeArticle.bind(this);
-      this.getMashableArticles = this.getMashableArticles.bind(this);
-      this.getNYTArticles = this.getNYTArticles.bind(this);
-      this.pushNYTArticles = this.pushNYTArticles.bind(this);
-      this.getDiggArticles = this.getDiggArticles.bind(this);
+      this.updateAllSources = this.updateAllSources.bind(this);
       this.showHideSearch = this.showHideSearch.bind(this);
+      this.fetchDiggArticles = this.fetchDiggArticles.bind(this);
+      this.useDiggArticles = this.useDiggArticles.bind(this);
+      this.fetchNYTArticles = this.fetchNYTArticles.bind(this);
+      this.useNYTArticles = this.useNYTArticles.bind(this);
+      this.fetchMashArticles = this.fetchMashArticles.bind(this);
+      this.useMashArticles = this.useMashArticles.bind(this);
+      // this.mountingFunction = this.mountingFunction.bind(this);
   }
 
 openArticle(title, description, url, img){
@@ -51,99 +53,11 @@ closeArticle(){
     })
 }
 
-getMashableArticles(){
-  fetch("https://accesscontrolalloworiginall.herokuapp.com/https://newsapi.org/v2/top-headlines?sources=mashable&apiKey=96af3845702747808e6f91a377545ffa")
-  .then(response => response.json())
-  .then(payload => {
-    const articleMash = payload.articles.map(article => {
-      return {
-              // key: article.title,
-              // id: article.story_id,
-              title: article.title,
-              description: article.description,
-              url: article.url,
-              category: "Technology",
-              img: article.urlToImage,
-              number: Math.floor(Math.random() * 1000)
-      }
-    })
-    console.log(payload);
-    this.setState({
-      articles: articleMash,
-      sourcename: "Mashable"
-    })
-  })
-}
-
-
-getNYTArticles(){
-  fetch("https://api.nytimes.com/svc/topstories/v2/technology.json?api-key=75e13cbb311541489c20cf40a5b59375")
-  .then(response => response.json())
-  .then(payload => {
-    const articlenyt = payload.results.map(article =>{
-      return {
-                title: article.title,
-                description: article.abstract,
-                url: article.url,
-                category: article.section,
-                // img: article.multimedia[0].url,
-                number: Math.floor(Math.random() * 1000)
-                }
-
-    })
-    this.setState({
-      nytarticles: articlenyt,
-      articles: articlenyt,
-      sourcename: "NYT"
-    })
-  })
-}
-
-pushNYTArticles(){
-  fetch("https://api.nytimes.com/svc/topstories/v2/technology.json?api-key=75e13cbb311541489c20cf40a5b59375")
-  .then(response => response.json())
-  .then(payload => {
-    const articlenyt = payload.results.map(article =>{
-      return {
-                title: article.title,
-                description: article.abstract,
-                url: article.url,
-                category: article.section,
-                // img: article.multimedia[0].url,
-                number: Math.floor(Math.random() * 1000)
-                }
-
-    })
-    const newArticles = this.state.articles.concat(articlenyt)
-    this.setState({
-      articles: newArticles,
-      nytarticles: articlenyt,
-      sourcename: "NYT"
-    })
-  })
-  console.log(this.state.nytarticles);
-}
-
-getDiggArticles(){
-  fetch("https://accesscontrolalloworiginall.herokuapp.com/http://digg.com/api/news/popular.json")
-  .then(response => response.json())
-  .then(payload => {
-    const articledigg = payload.data.feed.map(article =>{
-      return {
-        key: article.story_id,
-        id: article.story_id,
-        title: article.content.title,
-        description: article.content.description,
-        url: article.content.original_url,
-        category: article.content.tags[0].display_name,
-        img: article.content.media.images[0].url,
-        number: article.digg_score
-      }
-    })
-    this.setState({
-      articles: articledigg,
-      sourcename: "Digg"
-    })
+updateAllSources(){
+  const newArticles = this.state.articles.concat(this.state.diggarticles, this.state.masharticles, this.state.nytarticles)
+  this.setState({
+    articles: newArticles,
+    sourcename: "All"
   })
 }
 
@@ -160,6 +74,7 @@ showHideSearch(){
 }
 
 componentDidMount(){
+        this.fetchDiggArticles()
         fetch("https://accesscontrolalloworiginall.herokuapp.com/http://digg.com/api/news/popular.json")
         .then(response => response.json())
         .then(payload => {
@@ -180,18 +95,121 @@ componentDidMount(){
             showLoader: false,
             sourcename: "Digg"
           })
+          this.fetchNYTArticles()
+          this.fetchMashArticles()
+          this.fetchDiggArticles()
         })
 }
 
+
+fetchDiggArticles(){
+    fetch("https://accesscontrolalloworiginall.herokuapp.com/http://digg.com/api/news/popular.json")
+    .then(response => response.json())
+    .then(payload => {
+      const diggarray = payload.data.feed.map(article =>{
+        return {
+          key: article.story_id,
+          id: article.story_id,
+          title: article.content.title,
+          description: article.content.description,
+          url: article.content.original_url,
+          category: article.content.tags[0].display_name,
+          img: article.content.media.images[0].url,
+          number: article.digg_score,
+          source: "Digg"
+        }
+      })
+      this.setState({
+        diggarticles: diggarray,
+      })
+    })
+}
+
+useDiggArticles(){
+  this.setState({
+    articles: this.state.diggarticles
+  })
+}
+
+fetchNYTArticles(){
+  fetch("https://api.nytimes.com/svc/topstories/v2/technology.json?api-key=75e13cbb311541489c20cf40a5b59375")
+  .then(response => response.json())
+  .then(payload => {
+    const nytarray = payload.results.map(article =>{
+      return {
+                id: article.title,
+                title: article.title,
+                description: article.abstract,
+                url: article.url,
+                category: article.section,
+                source: "New York Times",
+                // img: article.multimedia[0].url,
+                number: Math.floor(Math.random() * 1000)
+                }
+
+    })
+    this.setState({
+      nytarticles: nytarray,
+    })
+  })
+}
+
+useNYTArticles(){
+  this.setState({
+    articles: this.state.nytarticles
+  })
+}
+
+fetchMashArticles(){
+  fetch("https://accesscontrolalloworiginall.herokuapp.com/https://newsapi.org/v2/top-headlines?sources=mashable&apiKey=96af3845702747808e6f91a377545ffa")
+  .then(response => response.json())
+  .then(payload => {
+    const masharray = payload.articles.map(article => {
+      return {
+              key: article.title,
+              id: article.story_id,
+              title: article.title,
+              description: article.description,
+              url: article.url,
+              category: "Technology",
+              source: "Mashable",
+              img: article.urlToImage,
+              number: Math.floor(Math.random() * 1000)
+      }
+    })
+    this.setState({
+      masharticles: masharray,
+    })
+  })
+}
+
+useMashArticles(){
+  this.setState({
+    articles: this.state.masharticles
+  })
+}
+
+//cannot get it working
+// mountingFunction(){
+//   this.fetchNYTArticles()
+//   this.fetchMashArticles()
+//   this.fetchDiggArticles()
+//   const newArticles = this.state.articles.concat(this.state.diggarticles, this.state.masharticles, this.state.nytarticles)
+//   this.setState({
+//     articlesall: newArticles,
+//     sourcename: "All"
+//   })
+// }
 
   render() {
     return (
       <div>
         <Header
-          onGetDiggArticles={this.getDiggArticles}
-          onGetNYTArticles={this.getNYTArticles}
-          onGetMashableArticles={this.getMashableArticles}
+          onUseDiggArticles={this.useDiggArticles}
+          onUseNYTArticles={this.useNYTArticles}
+          onUseMashableArticles={this.useMashArticles}
           onSearchClick={this.showHideSearch}
+          onHomeClick={this.updateAllSources}
           sourcename={this.state.sourcename}
           class={this.state.searchclass}
         />
@@ -225,18 +243,12 @@ componentDidMount(){
               }
             )}
         </section>
-        <button
-          onClick={this.getMashableArticles}
+        {/* <button
+          onClick={this.mountingFunction}
           type="submit"
           value="Submit">
-          Update source to Mashable
-        </button>
-        <button
-          onClick={this.pushNYTArticles}
-          type="submit"
-          value="Submit">
-          Push NYT articles to main array
-        </button>
+          mountingFunction
+        </button> */}
       </div>
     );
   }
