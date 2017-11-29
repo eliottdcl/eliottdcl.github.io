@@ -1,0 +1,46 @@
+body {
+  background: #2F4F4F;
+  color: white;
+  align-items: center;
+  text-align: center;
+  font-family: Helvetica;
+}
+
+.search-bar {
+
+}
+.search-button {
+
+}
+
+.weather{
+  border-top: 1px solid white;
+  margin: 0 auto;
+  width: 40%;
+  padding: 10px 0px 0px 0px
+}
+
+.weather-time {
+  padding: 20px 0px 5px 0px;
+  font-size: 80px;
+  font-weight: bold;
+}
+.weather-date {
+  padding: 10px 0px 20px 0px;
+  font-size: 40px;
+}
+.weather-temp {
+text-align: left;
+padding-right: 20px;
+font-size: 25px;
+font-weight: bold;
+}
+.weather-wind {
+text-align: left;
+}
+.weather-clouds {
+  text-align: left;
+  padding-right: 20px;
+  font-size: 10px;
+  font-weight: bold;
+}
