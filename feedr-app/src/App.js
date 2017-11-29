@@ -35,7 +35,6 @@ class App extends Component {
       this.fetchMashArticles = this.fetchMashArticles.bind(this);
       this.useMashArticles = this.useMashArticles.bind(this);
       this.handleSortingAZ = this.handleSortingAZ.bind(this);
-      // this.mountingFunction = this.mountingFunction.bind(this);
   }
 
   handleSortingAZ(){
@@ -109,36 +108,22 @@ showHideSearch(){
 }
 
 componentDidMount(){
-        this.fetchDiggArticles()
-        fetch("https://accesscontrolalloworiginall.herokuapp.com/http://digg.com/api/news/popular.json")
-        .then(response => response.json())
-        .then(payload => {
-          const articles = payload.data.feed.map(article =>{
-            return {
-              key: article.story_id,
-              id: article.story_id,
-              title: article.content.title,
-              description: article.content.description,
-              url: article.content.original_url,
-              category: article.content.tags[0].display_name,
-              img: article.content.media.images[0].url,
-              number: article.digg_score
-            }
-          })
-          this.setState({
-            articles: articles,
-            showLoader: false,
-            sourcename: "Digg"
-          })
-          this.fetchNYTArticles()
-          this.fetchMashArticles()
-          this.fetchDiggArticles()
+        Promise.all([this.fetchNYTArticles(),this.fetchMashArticles(),this.fetchDiggArticles()])
+        .then(([promisereturn1,promisereturn2,promisereturn3]) => {
+         const newArticles = this.state.articles.concat(this.state.diggarticles, this.state.masharticles, this.state.nytarticles)
+         console.log(newArticles);
+         this.setState({
+           articles: newArticles,
+           showLoader: false,
+           sourcename: "All"
+         })
         })
+
 }
 
 
 fetchDiggArticles(){
-    fetch("https://accesscontrolalloworiginall.herokuapp.com/http://digg.com/api/news/popular.json")
+    return fetch("https://accesscontrolalloworiginall.herokuapp.com/http://digg.com/api/news/popular.json")
     .then(response => response.json())
     .then(payload => {
       const diggarray = payload.data.feed.map(article =>{
@@ -168,7 +153,7 @@ useDiggArticles(){
 }
 
 fetchNYTArticles(){
-  fetch("https://api.nytimes.com/svc/topstories/v2/technology.json?api-key=75e13cbb311541489c20cf40a5b59375")
+  return fetch("https://api.nytimes.com/svc/topstories/v2/technology.json?api-key=75e13cbb311541489c20cf40a5b59375")
   .then(response => response.json())
   .then(payload => {
     const nytarray = payload.results.map(article =>{
@@ -198,7 +183,7 @@ useNYTArticles(){
 }
 
 fetchMashArticles(){
-  fetch("https://accesscontrolalloworiginall.herokuapp.com/https://newsapi.org/v2/top-headlines?sources=mashable&apiKey=96af3845702747808e6f91a377545ffa")
+  return fetch("https://accesscontrolalloworiginall.herokuapp.com/https://newsapi.org/v2/top-headlines?sources=mashable&apiKey=96af3845702747808e6f91a377545ffa")
   .then(response => response.json())
   .then(payload => {
     const masharray = payload.articles.map(article => {
@@ -227,17 +212,7 @@ useMashArticles(){
   })
 }
 
-//cannot get it working
-// mountingFunction(){
-//   this.fetchNYTArticles()
-//   this.fetchMashArticles()
-//   this.fetchDiggArticles()
-//   const newArticles = this.state.articles.concat(this.state.diggarticles, this.state.masharticles, this.state.nytarticles)
-//   this.setState({
-//     articlesall: newArticles,
-//     sourcename: "All"
-//   })
-// }
+
 
   render() {
     return (
@@ -288,12 +263,12 @@ useMashArticles(){
               }
             )}
         </section>
-        {/* <button
+        <button
           onClick={this.mountingFunction}
           type="submit"
           value="Submit">
           mountingFunction
-        </button> */}
+        </button>
       </div>
     );
   }
