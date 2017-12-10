@@ -106,6 +106,11 @@ createBreedObject = () => {
   const newbreedcount = _.map(this.state.breedscount, (key, value) => console.log('breed', value, 'count', key))
   console.log(newbreedcount);
 }
+
+createStateObject = () => {
+  const newstatecount = _.map(this.state.statecount, (key, value) => console.log('state', value, 'count', key))
+  console.log(newstatecount);
+}
 // Transform my breed count from an array to an object
 // _.map({a: 1, b: 2}, (key, value) => console.log('key', key, 'val', value))
 //>> VM4881:1 key 1 val a
@@ -122,6 +127,7 @@ createBreedObject = () => {
         <button onClick={this.getStates} type="submit">States</button>
         <button onClick={this.calculateStateCount} type="submit">doStateCount</button>
         <button onClick={this.calculateBreedCount} type="submit">doBreedCount</button>
+        <button onClick={this.createStateObject} type="submit">createStateObject</button>
         <button onClick={this.createBreedObject} type="submit">createBreedObject</button>
 
 
