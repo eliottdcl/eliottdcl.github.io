@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Report from './Report'
+import Report from './Report';
+import State from './State';
+import has from 'lodash/has';
+import _ from 'lodash';
 
 class App extends Component {
       constructor(props){
@@ -10,15 +13,20 @@ class App extends Component {
           reports: [],
           breeds: [],
           dataloaded: false,
-          stateslist: []
+          stateset: [],
+          breedscount:[],
+          statecount: [],
         }
-
-        this.getReports = this.getReports.bind(this);
-        this.getCountries = this.getCountries.bind(this);
-        this.getStateCount = this.getStateCount.bind(this);
-        this.getStates = this.getStates.bind(this);
       }
-getReports(){
+
+componentDidMount(){
+  this.getReports()
+  // this.tryLodash()
+  // this.getBreeds()
+  // this.getStates2()
+}
+
+getReports = () => {
   fetch('https://www.dorsalwatch.com/api/public/report/list', {
   method: 'POST',
   headers: {
@@ -29,7 +37,7 @@ getReports(){
     country: "Australia",
     timeRange: 0,
     pageIndex: 0,
-    pageSize: 300,
+    pageSize: 50,
     publicKey: "ab61cd9427bea80f22e641c04c312195"
   })
 }).then(response => response.json()).then(payload => {
@@ -43,71 +51,65 @@ getReports(){
       sharkLength: report.sharkLength,
       state: report.state,
       typeOfEncounter: report.typeOfEncounter,
-      specie: report.typeOfShark,
+      breed: report.typeOfShark,
       zone: report.zone,
       formattedReportTime: report.formattedReportTime
     }
   })
-
   this.setState({
-    // reports: payload.responseData,
     reports: reportobj
   })
 })
 }
 
-getCountries(){
-  return fetch('https://www.dorsalwatch.com/api/public/countries?_=1512375198838')
-  .then(response => response.json())
-  .then(payload => {
-    const countries = payload.responseData.map(country => {
-      return {
-              key: country.id,
-              name: country.name
-
-      }
-    })
-    this.setState({
-      countries: countries,
-    })
+getStates = () => {
+  //Get all the states from the reports array
+  const states = this.state.reports.map((report) => {
+    return report.state
+  })
+  // Create an array of unique states
+  const stateset = _.uniq(states)
+  this.setState({
+    states: states,
+    stateset: stateset,
   })
 }
 
-getStates(){
-  return fetch('https://www.dorsalwatch.com/api/public/Australia/states?_=1512375198840')
-  .then(response => response.json())
-  .then(payload => {
-    const states = payload.responseData.map(state => {
-      return {
-              key: state.id,
-              statename: state.name
 
-      }
-    })
-    this.setState({
-      stateslist: states,
-    })
+getBreeds = () => {
+  const breeds = this.state.reports.map((report) => {
+    return report.breed
+  })
+  const breedset = _.uniq(breeds);
+  this.setState({
+    breeds: breeds,
+    breedset: breedset,
   })
 }
 
-getStateCount(){
-  const countNSW = this.state.reports.filter((report) => {
-      return report.state === "NSW"
-      })
-console.log(countNSW.length);
-
-const countWA = this.state.reports.filter((report) => {
-    return report.state === "WA"
-    })
-console.log(countWA.length);
-const daterangestart = this.state.reports.slice(-1)[0]
-console.log();
-this.setState({
-  daterangestart: daterangestart.formattedReportTime,
-  countNSW: countNSW.length,
-  countWA: countWA.length
-})
+calculateStateCount = () => {
+  const statecount = _.countBy(this.state.states);
+  this.setState({
+    statecount:statecount,
+  })
 }
+
+calculateBreedCount = () => {
+  const breedscount = _.countBy(this.state.breeds);
+  this.setState({
+    breedscount:breedscount,
+  })
+}
+
+
+createBreedObject = () => {
+  const newbreedcount = _.map(this.state.breedscount, (key, value) => console.log('breed', value, 'count', key))
+  console.log(newbreedcount);
+}
+// Transform my breed count from an array to an object
+// _.map({a: 1, b: 2}, (key, value) => console.log('key', key, 'val', value))
+//>> VM4881:1 key 1 val a
+//>> VM4881:1 key 2 val b
 
 
   render() {
@@ -116,19 +118,12 @@ this.setState({
 
         <h2>Country: Australia</h2>
         <h2>Reports recorded since:{this.state.daterangestart}</h2>
-        <p>NSW: {this.state.countNSW}</p>
-        <p>WA: {this.state.countWA}</p>
-        <select name="states">
-          {this.state.stateslist.map(state => {
-           return (
-             <option>{state.statename}</option>
-           )})}
-        </select>
+        <button onClick={this.getBreeds} type="submit">Breeds</button>
+        <button onClick={this.getStates} type="submit">States</button>
+        <button onClick={this.calculateStateCount} type="submit">doStateCount</button>
+        <button onClick={this.calculateBreedCount} type="submit">doBreedCount</button>
+        <button onClick={this.createBreedObject} type="submit">createBreedObject</button>
 
-        <button onClick={this.getReports} type="submit">Get the reports</button>
-        <button onClick={this.getCountries} type="submit">getCountries</button>
-        <button onClick={this.getStates} type="submit">getStates</button>
-        <button onClick={this.getStateCount} type="submit">getStateCountNSW</button>
 
         {this.state.reports.map(report => {
          return (
@@ -136,15 +131,11 @@ this.setState({
              key={report.id}
              state={report.state}
              zone={report.zone}
-             breed={report.typeOfShark}
+             breed={report.breed}
              time={report.formattedReportTime}
            />
                )
              })}
-
-        <div className="reports">
-          <Report />
-        </div>
       </div>
     );
   }
